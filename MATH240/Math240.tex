@@ -1,4 +1,4 @@
-\documentclass[twoside]{article}
+\documentclass{article}
 \usepackage{amsmath, amssymb}
 \usepackage{graphicx}
 \usepackage{adjustbox}
@@ -13,15 +13,16 @@
 
 \pagestyle{fancy}
 \fancyhf{} 
- 
+\fancyhfoffset[L]{0cm} % No left extra length
+\fancyhfoffset[R]{0cm}
 
 % Page number
 \fancyhead[LE]{\thepage} 
 \fancyhead[RO]{\thepage} 
 
 % Alternating header 
-\fancyhead[CO]{\makebox[0pt][c]{{\textsc{Kiplimo Kemei}}}}
-\fancyhead[CE]{\makebox[0pt][c]{{\textsc{Notes for CS/Math 240, Spring 2024}}}}
+\fancyhead[CO]{{{\textsc{Kiplimo Kemei}}}}
+\fancyhead[CE]{{{\textsc{Notes for CS/Math 240, Spring 2024}}}}
 
 \cfoot{} % Clear footer
 
@@ -61,7 +62,7 @@ Variables like $p, q,$ and $r$ can be used to denote propositions.
 
 \subsection{Logical Operations}
 \subsubsection{Compound Proposition}
-\text{It will only be true if both $p$ and $q$ are true.}\newline\newline
+\hbox{It will only be true if both $p$ and $q$ are true.}
 \textbf{Operator:} $\land$ (and)  \\
 \textbf{Example:} $p \land q$ (January has 31 days and February has 33 days)  \\
 \textbf{Truth Value:} False
