@@ -1,5 +1,18 @@
 \documentclass[12pt, letterpaper]{article}
 \usepackage{amsmath}% For the equation* environment
+\usepackage{fancyhdr}
+
+% Header Configuration
+\pagestyle{fancy} 
+\fancyhf{} % Clear default header/footer
+\fancyhead[L]{\thesection. \nouppercase{\leftmark}} % Left-align: Section number & title
+\fancyhead[R]{\thepage} % Right-align: Page number
+\renewcommand{\headrulewidth}{0.4pt} % Line under the header
+\renewcommand{\sectionmark}[1]{\markboth{#1}{}}
+
+% Remove header from the first page
+\thispagestyle{plain}
+
 \title{ECE 203 Notes}
 \author{Kiplimo Kemei\thanks{Some material is sourced from external sources.}}
 \date{Spring 2024}
@@ -14,9 +27,10 @@ be related to the material discussed in class with a couple practice
 questions thrown in for good measure. Hope you find it useful!
 
 \newpage
+\thispagestyle{plain}
 \tableofcontents
 \newpage
-
+\thispagestyle{plain}
 \section{Course Introduction}      
 Lorem  ipsum  dolor  sit  amet,  consectetuer  adipiscing  
 elit.   Etiam  lobortisfacilisis sem.  Nullam nec mi et 
@@ -28,9 +42,18 @@ Donec ullamcorper, felis non sodales...
     E=mc^2
 \end{math} is typeset in a paragraph using inline math mode---as is $E=mc^2$, and so too is \(E=mc^2\).
 
+\newpage
+
 \section{Sinusoids}   
-\section{Introduction to MATLAB}   
-\section{Complex Numbers, Euler's Formula, Complex Sinusoids}   
+\thispagestyle{plain}
+\newpage
+\section{Introduction to MATLAB}  
+\thispagestyle{plain}
+
+\newpage
+\section{Complex Numbers, Euler's Formula, Complex Sinusoids} 
+
+\newpage
 \section{Spectrum, Multiplication of Sines, AM, Periodicity}
 \section{AM and beats, FM chirps, Spectrogram Lab}
 \section{Fourier Series by Inspection}
