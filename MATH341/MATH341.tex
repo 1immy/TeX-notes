@@ -4,19 +4,231 @@
 \usepackage{adjustbox}
 \usepackage{fancyhdr}
 
+% Page Headers
+\renewcommand{\headrulewidth}{0mm} 
+
+\pagestyle{fancy}
+\fancyhf{} 
+\fancyhfoffset[L]{0cm} % No left extra length
+\fancyhfoffset[R]{0cm}
+
+% Page number
+\fancyhead[LE]{\thepage} 
+\fancyhead[RO]{\thepage} 
+
+% Alternating header 
+\fancyhead[CO]{{{\textsc{kiplimo kemei}}}}
+\fancyhead[CE]{{{\textsc{notes for linear algebra 341, spring 2025}}}}
+
+\cfoot{} % Clear footer
 % Title Page
+\thispagestyle{plain}
 \begin{document}
 \begin{center}
 \textsc{notes for linear algebra 341, spring 2025}
 \break
 \textsc{Kiplimo Kemei}
 \end{center}
+\medskip
 
-\subsection*{Week 4}
-\subsubsection*{Lecture 1 - Tue Feb 11}
+\begin{center}
+    \textsc{{1. Introduction to Vectors in $\mathbb{R}^n$}}
+\end{center}
+
+A vector $\vec{x}$ (or n-dimensional vector) is an ordered n-tuple of numbers.
+
+\[\vec{x} = [x_1,x_2,\dots,x_n] \ \text{(row vector)}\] 
+
+\[\vec{x} =
+\begin{bmatrix}
+x_1 \\
+x_2 \\
+\vdots \\
+x_n
+\end{bmatrix}
+\text{(column vector)}
+\]
+
+We can represent a vector as either a row or column vector as shown above. In general, we use either of them depending on what we are trying to do with vectors. 
+
+\medskip
+For $\mathbb{R}^n$, it can be expressed as the set:
+
+\[
+\mathbb{R}^n = \left\{ 
+\begin{bmatrix}
+x_1 \\
+\vdots \\
+x_n
+\end{bmatrix}
+\; : \; x_1, \dots, x_n \in \mathbb{R} \right\}
+\]
+
+For \( n = 1 \), we define the real number space as:
+
+\[
+\mathbb{R}^1 = \mathbb{R}
+\]
+
+where a vector in \( \mathbb{R}^1 \) is written as:
+
+\[
+[x_1] \to x_1
+\]
+
+For \( n = 2 \), we define the two-dimensional real vector space as:
+
+\[
+\mathbb{R}^2 = \left\{ \begin{bmatrix} x_1 \\ x_2 \end{bmatrix} \; : \; x_1, x_2 \in \mathbb{R} \right\}
+\]
+
+A vector in \( \mathbb{R}^2 \) can be visualized as an arrow originating from the point \( (0,0) \) and terminating at the point \( (x_1, x_2) \). The vector is expressed in matrix notation as:
+
+\[
+\mathbf{x} =
+\begin{bmatrix} x_1 \\ x_2 \end{bmatrix}, \quad
+\mathbf{y} =
+\begin{bmatrix} y_1 \\ y_2 \end{bmatrix}
+\]
+
+where \( x_1, x_2, y_1, y_2 \in \mathbb{R} \).
+
+\medskip 
+Two vectors \( \mathbf{x} \) and \( \mathbf{y} \) in \( \mathbb{R}^n \) are equal if and only if each corresponding component is equal. Formally, if:
+
+\[
+\mathbf{x} =
+\begin{bmatrix}
+x_1 \\
+\vdots \\
+x_n
+\end{bmatrix}, \quad
+\mathbf{y} =
+\begin{bmatrix}
+y_1 \\
+\vdots \\
+y_n
+\end{bmatrix}
+\]
+
+then we say that \( \mathbf{x} = \mathbf{y} \) if and only if:
+
+\[
+x_j = y_j \quad \text{for } j = 1, 2, \dots, n.
+\]
+
+\medskip
+\begin{center}
+    \textsc{2. Vector Spaces}
+\end{center}
+
+For this class, let we will refer to a vector space using notation $V$. 
+
+\medskip
+Let $V$ be a field (a set of numbers that define the scalars used in multiplication)
+
+\[V^n = \{(a_1,a_2,\dots,a_n)\ |\ a_i \in V \ \text{for}\ i=1,2,\dots,n\}\]
+
+Here we have that $V^n$ is a vector space over V. In vector spaces, there are only two operations we can perform. 
 
 
+\medskip
+\noindent \textbf{1) Vector Addition} 
 
+\medskip
+\emph{Commutativity:} For all \( \mathbf{v}, \mathbf{w} \in V \),
+\[
+\mathbf{v} + \mathbf{w} = \mathbf{w} + \mathbf{v}.
+\]
 
+\emph{Associativity:} For all \( \mathbf{u}, \mathbf{v}, \mathbf{w} \in V \),
+\[
+(\mathbf{u} + \mathbf{v}) + \mathbf{w} = \mathbf{u} + (\mathbf{v} + \mathbf{w}).
+\]
 
+\emph{Additive Identity (Zero Vector):} There exists a special vector \( \mathbf{0} \in V \) such that for every \( \mathbf{v} \in V \),
+\[
+\mathbf{v} + \mathbf{0} = \mathbf{v}.
+\]
+
+\emph{Additive Inverse:} For every \( \mathbf{v} \in V \), there exists another vector \( -\mathbf{v} \in V \) such that:
+\[
+\mathbf{v} + (-\mathbf{v}) = \mathbf{0}.
+\]
+
+\medskip
+\noindent \textbf{2) Scalar Multiplication} 
+
+\medskip
+\emph{Multiplicative Identity:} For every \( \mathbf{v} \in V \),
+\[
+1 \cdot \mathbf{v} = \mathbf{v}.
+\]
+
+\emph{Associativity with Scalars:} For all real numbers \( a, b \in \mathbb{R} \) and \( \mathbf{v} \in V \),
+\[
+a \cdot (b \cdot \mathbf{v}) = (ab) \cdot \mathbf{v}.
+\]
+
+\emph{Distributivity Over Scalar Addition:} For all real numbers \( a, b \in \mathbb{R} \) and \( \mathbf{v} \in V \),
+\[
+(a + b) \cdot \mathbf{v} = a \cdot \mathbf{v} + b \cdot \mathbf{v}.
+\]
+
+\emph{Distributivity Over Vector Addition:} For all real numbers \( a \in \mathbb{R} \) and vectors \( \mathbf{v}, \mathbf{w} \in V \),
+\[
+a \cdot (\mathbf{v} + \mathbf{w}) = a \cdot \mathbf{v} + a \cdot \mathbf{w}.
+\]
+
+\begin{center}
+    \textsc{\underline{Examples of Vector Spaces}}
+\end{center}
+
+An easy example of a vector space is $\mathbb{R}^2$
+
+Here are other important examples of vector spaces:
+
+\medskip
+\noindent \textbf{1. The set of polynomials \( \mathbb{R}[x] \)}  
+
+This is the set of all polynomials with real coefficients. Each element is a polynomial function, such as:
+\[
+f(x) = 3x^2 - 2x + 5.
+\]
+Vector addition corresponds to adding polynomials term by term, and scalar multiplication corresponds to multiplying every term by a real number.
+
+\medskip
+\noindent \textbf{2. The set of polynomials of degree at most \( k \), denoted \( P_k(x) \)}  
+
+This is a subset of \( \mathbb{R}[x] \) where every polynomial has degree at most \( k \). That is:
+\[
+P_k(x) = \{ f \in \mathbb{R}[x] \mid \deg f \leq k \}.
+\]
+For example, if \( k = 2 \), the set consists of all quadratic polynomials like \( ax^2 + bx + c \).
+
+\medskip
+\noindent \textbf{3. The set of \( a \times b \) matrices, denoted \( M_{a,b} \)}  
+
+This is the set of all matrices with \( a \) rows and \( b \) columns, where each entry is a real number. A typical matrix in \( M_{2,3} \) (2 rows, 3 columns) looks like:
+\[
+\begin{bmatrix}
+1 & 2 & 3 \\
+4 & 5 & 6
+\end{bmatrix}.
+\]
+Vector addition corresponds to matrix addition, and scalar multiplication means multiplying every entry by a real number.
+
+\medskip
+\noindent \textbf{4. The set of \( k \)-times differentiable functions, denoted \( C^k(x) \)}  
+
+This is the set of all functions that can be differentiated at least \( k \) times, where the \( k \)th derivative exists and is continuous. If \( k = 1 \), the functions must be at least once differentiable.
+
+\medskip
+\noindent \textbf{5. The set of infinitely differentiable functions, denoted \( C^\infty(x) \)}  
+
+This is the set of all functions that can be differentiated infinitely many times, such as:
+\[
+e^x, \quad \sin x, \quad \cos x.
+\]
+These functions have derivatives of all orders, and their derivatives never become undefined.
 \end{document}
