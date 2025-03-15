@@ -1,6 +1,8 @@
 \documentclass[12pt, letterpaper]{article}
 \usepackage{amsmath}% For the equation* environment
 \usepackage{fancyhdr}
+\usepackage{graphicx}
+\usepackage{placeins}
 
 % Header Configuration
 \pagestyle{fancy} 
@@ -55,14 +57,542 @@ Donec ullamcorper, felis non sodales...
 
 \newpage
 \section{Spectrum, Multiplication of Sines, AM, Periodicity}
+
+\newpage
 \section{AM and beats, FM chirps, Spectrogram Lab}
+
+\newpage
 \section{Fourier Series by Inspection}
+
+\newpage
 \section{Assessment 1 Review}
+
+\newpage
 \section{Fourier Series by Integration, Square Wave}
+
+\newpage
 \section{Music Synthesis Lab}
+
+\newpage
 \section{Sampling, Aliasing, Spectrum of Sampled Signals, Amplitude Quantization}
+
+\subsection{Key Concepts}
+\begin{itemize}
+    \item Sampling converts physical signals \( x(t) \), such as a voltage, into a form that is compatible with computation.
+    \begin{itemize}
+        \item Collect values of \( x(t) \) at distinct times \( t = \dots, -T_s, 0, T_s, 2T_s, 3T_s, \dots \)
+        \item The value at each time sample is approximated using \( B \) bits, or \( 2^B \) possible levels.
+        \item This process is called \textbf{analog-to-digital (A/D) conversion}.
+        \item The effects of collecting samples at distinct times and quantizing the amplitude are analyzed separately.
+    \end{itemize}
+\end{itemize}
+
+\subsection{Sampling and Information Loss}
+\begin{itemize}
+    \item Many signals have identical samples.
+    \begin{itemize}
+        \item Information between samples is discarded.
+        \item The \textbf{sampling theorem} provides a rule for selecting \( T_s \) to ensure uniqueness.
+    \end{itemize}
+\end{itemize}
+
+\subsubsection*{Notation}
+\begin{itemize}
+    \item \textbf{Continuous independent variables} are denoted using \((.)\), for example, \( x(t) \).
+    \item \textbf{Discrete-valued independent variables} are denoted using \([.]\), for example, \( x[n] \).
+\end{itemize}
+
+\subsection{Reconstruction of Sampled Signals}
+\begin{itemize}
+    \item Converting a sampled signal back to a continuous-valued form, such as voltage, is called \textbf{reconstruction} or \textbf{digital-to-analog (D/A) conversion}.
+    \begin{itemize}
+        \item Sequentially generate a constant voltage proportional to each sample and hold it for \( T_s \).
+        \item Smooth sharp transitions using a circuit that passes low frequencies and attenuates high frequencies.
+    \end{itemize}
+\end{itemize}
+
+\subsection{Aliasing and the Sampling Theorem}
+\begin{itemize}
+    \item The effects of sampling in time are understood by studying the sampling of sinusoids.
+\end{itemize}
+
+\subsubsection{Digital Frequency and Sampling}
+\begin{itemize}
+    \item Digital (discrete-time) frequency is given by:
+    \[
+    \hat{f} = f T_s
+    \]
+    where \( f \) is the continuous-time frequency and \( T_s \) is the sampling interval.
+\end{itemize}
+
+\subsubsection{Relationship to Sampling Frequency}
+\begin{itemize}
+    \item Equivalently, digital frequency can be expressed as:
+    \[
+    \hat{f} = \frac{f}{f_s}
+    \]
+    where \( f_s = \frac{1}{T_s} \) is the sampling frequency.
+    \item Digital frequency is measured in units of \textbf{cycles/sample}.
+\end{itemize}
+
+\subsection{Sampling of Complex Sinusoids}
+\begin{itemize}
+    \item Samples of a complex sinusoid correspond to points in the complex plane separated by angles \( 2\pi \hat{f} \) radians, or \( \hat{f} \) cycles.
+\end{itemize}
+
+\subsection{Reconstruction of Sampled Signals}
+\begin{itemize}
+    \item Reconstruction finds the simplest or lowest-frequency signal consistent with a given set of samples.
+\end{itemize}
+
+\subsection{Aliasing}
+\begin{itemize}
+    \item Aliasing occurs when a sinusoid of one frequency appears to be a sinusoid of a different frequency.
+\end{itemize}
+
+\subsubsection{Aliasing in Complex Sinusoids}
+\begin{itemize}
+    \item Complex sinusoids with frequencies \( \hat{f} + \ell \) cycles per sample, where \( \ell \) is an integer, are identical.
+    \item For example, if \( \hat{f} = 0.25 \), then sinusoids with digital frequencies:
+    \[
+    -1.75, -0.75, 0.25, 1.25, 2.25, \dots
+    \]
+    produce identical samples.
+\end{itemize}
+
+\subsubsection{Aliasing in Real-Valued Sinusoids}
+\begin{itemize}
+    \item Real-valued sinusoids do not differentiate between negative and positive frequencies.
+    \item As a result, sinusoids with frequencies \( |\hat{f} + \ell| \), where \( \ell \) is an integer, cannot be distinguished based on their samples.
+    \item Example: If \( \hat{f} = 0.25 \), then the sinusoids with digital frequencies:
+    \[
+    0.25, 0.75, 1.25, 1.75, 2.25, 2.75, \dots
+    \]
+    all appear identical.
+    \item This non-uniqueness of digital frequency corresponds to the non-uniqueness of continuous-time frequency.
+\end{itemize}
+
+\subsection{Recovering a Real-Valued Sinusoid from Digital Frequency}
+\begin{itemize}
+    \item The frequency \( f_a \) of a reconstructed real-valued sinusoid is obtained from the digital frequency \( \hat{f} \) as follows:
+\end{itemize}
+
+\subsubsection{Principal Frequency Representation}
+\begin{itemize}
+    \item The angle \( 2\pi \hat{f} \) can be sketched in the complex plane.
+    \item Let \( \theta \) be the \textbf{principal value} of \( 2\pi \hat{f} \), ensuring \( -\pi < \theta \leq \pi \).
+    \item The principal value represents the smallest plausible digital frequency.
+\end{itemize}
+
+\subsubsection{Conversion to Continuous Frequency}
+\begin{itemize}
+    \item Convert the principal value \( \theta \) to a real-valued sinusoid frequency using:
+    \[
+    f_a = \frac{|\theta|}{2\pi T_s}
+    \]
+\end{itemize}
+
+\subsection{Sampling Theorem}
+\begin{itemize}
+    \item The sampling theorem guarantees that the reconstructed frequency \( f_a \) is equal to the original frequency \( f_0 \) of the sampled real-valued sinusoid.
+\end{itemize}
+
+\subsubsection{Condition for Proper Sampling}
+\begin{itemize}
+    \item The sampling theorem requires:
+    \[
+    f_s > 2f_0
+    \]
+    \item Equivalently, the sampling interval \( T_s \) must be small enough so that \textbf{more than two samples} are taken per period.
+\end{itemize}
+
+\subsection{Spectrum of Sampled Signals}
+
+\subsubsection{Complex Sinusoids and Frequency Uniqueness}
+\begin{itemize}
+    \item Discrete-time complex sinusoids \( e^{j 2\pi \hat{f} n} \) with different frequencies are not always distinct.
+    \item Some frequencies result in identical sampled values, making them indistinguishable.
+\end{itemize}
+
+\subsubsection{Frequency Folding in the Discrete Spectrum}
+\begin{itemize}
+    \item Two frequencies \( \hat{f} \) and \( \hat{f} + \ell \) (where \( \ell \) is an integer) produce identical discrete-time sinusoids.
+    \item To ensure uniqueness, restrict the discrete-time spectrum to:
+    \[
+    -0.5 < \hat{f} \leq 0.5
+    \]
+    \item If a frequency \( f_o \) does not satisfy this range, add or subtract integers to find the corresponding **wrapped digital frequency**:
+    \[
+    \hat{f}_1 = f_o + \ell, \quad -0.5 < \hat{f}_1 \leq 0.5
+    \]
+    \item This process is similar to computing the \textbf{principal value} of a phase angle to ensure a unique representation.
+\end{itemize}
+
+\subsection{Discrete-Time Spectrum of a Sampled Signal}
+\begin{itemize}
+    \item Consider a continuous-time signal composed of multiple sinusoids:
+    \[
+    x(t) = \sum_{k=1}^{N} A_k \cos(2\pi f_k t + \phi_k)
+    \]
+    \item To analyze its discrete-time spectrum:
+\end{itemize}
+
+\subsubsection{Using Euler’s Formula}
+\begin{itemize}
+    \item Express each sinusoid using Euler’s identity:
+    \[
+    A_k \cos(2\pi f_k t + \phi_k) = \frac{A_k e^{j\phi_k}}{2} e^{j 2\pi f_k t} + \frac{A_k e^{-j\phi_k}}{2} e^{-j 2\pi f_k t}
+    \]
+    \item Sampling replaces \( t \) with \( T_s n \) in each exponential term.
+\end{itemize}
+
+\subsubsection{Frequency Wrapping for Sampling}
+\begin{itemize}
+    \item The sampled frequency is wrapped using integer shifts:
+    \[
+    \hat{f}_k = f_k T_s + \ell_k
+    \]
+    ensuring \( -0.5 < \hat{f}_k \leq 0.5 \).
+    \item The amplitude \( \frac{A_k e^{j\phi_k}}{2} \) corresponds to the discrete-time frequency \( \hat{f}_k \), which may be negative.
+    \item Similarly, wrap the negative frequency component:
+    \[
+    -\hat{f}_k = -f_k T_s - \ell_k
+    \]
+    where the amplitude \( \frac{A_k e^{-j\phi_k}}{2} \) corresponds to \( -\hat{f}_k \), which may be positive.
+    \item If \( \hat{f}_k \) is negative, the complex amplitude originally associated with positive \( f_k \) is now linked to negative discrete-time frequency.
+\end{itemize}
+
+\subsection{Reconstruction and Continuous-Time Spectrum}
+\begin{itemize}
+    \item Reconstruction finds the lowest continuous-time frequencies consistent with the samples.
+\end{itemize}
+
+\subsubsection{Reconstructed Signal Spectrum}
+\begin{itemize}
+    \item The discrete-time signal is expressed as a sum of complex sinusoids with frequencies \( \hat{f}_k \) and \( -\hat{f}_k \), having weights \( \alpha_k \) and \( \alpha_k^* \), respectively.
+    \item Map these frequencies to the continuous-time domain:
+    \[
+    \pm f_k = \pm \hat{f}_k f_s
+    \]
+    where \( f_s = \frac{1}{T_s} \) is the sampling frequency.
+    \item The reconstructed continuous-time spectrum contains coefficients \( \alpha_k \) and \( \alpha_k^* \) at frequencies \( f_k \) and \( -f_k \).
+\end{itemize}
+
+\subsection{Example: Sampling a Sinusoid}
+\begin{itemize}
+    \item Consider a sinusoid:
+    \[
+    x(t) = 2 \cos(2\pi 8t + \pi/3)
+    \]
+    sampled at \( f_s = 10 \) Hz.
+\end{itemize}
+
+\subsubsection{Step 1: Express in Exponential Form}
+\begin{itemize}
+    \item Rewrite using Euler’s identity:
+    \[
+    x(t) = e^{j\pi/3} e^{j 2\pi 8t} + e^{-j\pi/3} e^{-j 2\pi 8t}
+    \]
+\end{itemize}
+
+\subsubsection{Step 2: Compute Sampled Frequency}
+\begin{itemize}
+    \item Compute the sampled frequency:
+    \[
+    8 \times \frac{1}{10} = 0.8
+    \]
+    \item Wrap it within \( -0.5 < \hat{f} \leq 0.5 \) by subtracting \( \ell = 1 \):
+    \[
+    \hat{f}_1 = 0.8 - 1 = -0.2
+    \]
+    \item The sampled spectrum has a frequency component at \( \hat{f} = -0.2 \) cycles per sample.
+\end{itemize}
+
+\subsubsection{Step 3: Compute Negative Frequency Component}
+\begin{itemize}
+    \item Similarly, for the negative frequency:
+    \[
+    -8 \times \frac{1}{10} = -0.8
+    \]
+    \item Wrap it by adding \( \ell = 1 \):
+    \[
+    -\hat{f}_1 = -0.8 + 1 = 0.2
+    \]
+    \item The spectrum at \( \hat{f} = 0.2 \) cycles per sample contains \( e^{-j\pi/3} \).
+\end{itemize}
+
+\subsubsection{Step 4: Compute Reconstructed Frequency}
+\begin{itemize}
+    \item Reconstructing at \( f_s = 10 \) Hz gives:
+    \[
+    f_1 = 0.2 \times 10 = 2 \text{ Hz}, \quad -f_1 = -2 \text{ Hz}
+    \]
+    with coefficients \( \alpha_1 = e^{-j\pi/3} \) and \( \alpha_1^* = e^{j\pi/3} \).
+\end{itemize}
+
+\subsubsection{Step 5: Final Reconstructed Signal}
+\begin{itemize}
+    \item The reconstructed signal is:
+    \[
+    z(t) = e^{-j\pi/3} e^{j 2\pi 2t} + e^{j\pi/3} e^{-j 2\pi 2t}
+    \]
+    \item Simplifying:
+    \[
+    z(t) = 2 \cos(2\pi 2t - \pi/3)
+    \]
+    \item \textbf{Observation:} Aliasing from positive to negative frequencies has altered both the frequency and phase of the sinusoid.
+\end{itemize}
+
+\subsection{Amplitude Quantization in A-D Conversion}
+
+\subsubsection{Key Concepts}
+\begin{itemize}
+    \item A \textbf{\( B \)-bit A/D converter} quantizes the samples of a continuous-time signal into \( 2^B \) discrete levels.
+    \item With \( 2^B \) levels, there are \( 2^B - 1 \) quantization intervals.
+\end{itemize}
+
+\subsubsection{Quantization Step Size}
+\begin{itemize}
+    \item If the \( 2^B \) levels are spread over a range \( R \), then the step size between quantization levels is:
+    \[
+    \Delta = \frac{R}{2^B - 1}
+    \]
+    \item If \( 2^B \gg 1 \), then:
+    \[
+    \Delta \approx \frac{R}{2^B}
+    \]
+\end{itemize}
+
+\subsubsection{Quantization Error}
+\begin{itemize}
+    \item The absolute error due to rounding a continuous-amplitude signal to the nearest quantization level is at most:
+    \[
+    \frac{\Delta}{2} \approx R 2^{-(B+1)}
+    \]
+\end{itemize}
+
+\subsubsection{Efficient Use of Quantization Levels}
+\begin{itemize}
+    \item To maximize the use of available quantization levels, the input signal range should be \textbf{scaled} to match the dynamic range of the A/D converter.
+\end{itemize}
+
+\subsubsection{Loss of Signal Information}
+\begin{itemize}
+    \item Information loss occurs when:
+    \begin{itemize}
+        \item The input signal exceeds the measurable range of the A/D converter, causing \textbf{saturation}.
+        \item The input signal variations are smaller than the quantization step size, causing a loss of resolution.
+    \end{itemize}
+\end{itemize}
+
+\subsubsection{Dynamic Range}
+\begin{itemize}
+    \item The \textbf{dynamic range}, or the ratio of the largest to the smallest measurable signal amplitudes, is proportional to:
+    \[
+    2^B
+    \]
+    \item Each additional bit in the A/D converter increases the dynamic range by:
+    \[
+    6 \text{ dB}
+    \]
+\end{itemize}
+
+\newpage
 \section{Music Synthesis 2 Lab}
+
+\newpage
 \section{DFT and Computing the Spectrum of Sampled Signals}
+
+\subsection{Key Concepts}
+\begin{itemize}
+\item The Discrete Fourier Transform (DFT) is the discrete-time version of the Fourier series for continous-time signals.
+\item The DFT has a very wide range of applications in addition to computing the spectrum of discrete-time signals. 
+\item The DFT represents a finite-duration discrete-time signal $x[n]$, $n=0$,$1$,$2$,\dots,$N-1$ as a weighted sum of harmonically related complex sinusoids\dots
+\end{itemize}
+
+\subsection{Discrete Fourier Transform (DFT)}
+The \textbf{DFT} is a mathematical tool used to analyze discrete-time signals in the \textbf{frequency domain}. It transforms a discrete-time signal \( x[n] \) into its frequency components \( X[k] \), representing how much of each frequency is present in the signal.
+
+\subsubsection*{DFT Formula:}
+\[
+X[k] = \sum_{n=0}^{N-1} x[n] e^{-j 2\pi \frac{k}{N} n}, \quad k = 0, 1, 2, \dots, N-1
+\]
+
+\subsubsection*{Key Points about DFT:}
+\begin{itemize}
+    \item \( X[k] \) represents the frequency content of the signal.
+    \item The term \( e^{-j 2\pi \frac{k}{N} n} \) is a complex exponential, acting as a \textbf{basis function} for frequency analysis.
+    \item Each \( k \)-th component corresponds to a frequency \( \frac{k}{N} \) cycles per sample.
+    \item The magnitude \( |X[k]| \) gives the \textbf{magnitude spectrum}, indicating the strength of each frequency.
+\end{itemize}
+
+\subsection{Inverse Discrete Fourier Transform (IDFT)}
+The \textbf{IDFT} allows us to reconstruct the original discrete-time signal \( x[n] \) from its frequency domain representation \( X[k] \). It essentially "reverses" the transformation performed by the DFT.
+
+\subsubsection*{IDFT Formula:}
+\[
+x[n] = \sum_{k=0}^{N-1} \frac{1}{N} X[k] e^{j 2\pi \frac{k}{N} n}, \quad n = 0, 1, 2, \dots, N-1
+\]
+
+\subsubsection*{Key Points about IDFT:}
+\begin{itemize}
+    \item It \textbf{recovers} the original time-domain signal \( x[n] \) from the frequency coefficients \( X[k] \).
+    \item The term \( e^{j 2\pi \frac{k}{N} n} \) is the \textbf{inverse basis function}, reversing the effect of the DFT.
+    \item The \textbf{\( \frac{1}{N} \) factor} ensures proper scaling so that the reconstructed signal has the same amplitude as the original.
+\end{itemize}
+
+\subsection{DFT \& IDFT Summary}
+
+\begin{table}[h]
+    \centering
+    \begin{tabular}{|c|c|}
+        \hline
+        \textbf{Aspect} & \textbf{DFT} \\
+        \hline
+        Purpose & Converts \( x[n] \) from time domain to frequency domain \\
+        \hline
+        Formula & \( X[k] = \sum_{n=0}^{N-1} x[n] e^{-j 2\pi \frac{k}{N} n} \) \\
+        \hline
+        Exponential Term & \( e^{-j 2\pi \frac{k}{N} n} \) (negative exponent) \\
+        \hline
+        Scaling Factor & None \\
+        \hline
+    \end{tabular}
+    \caption{Summary of Discrete Fourier Transform (DFT)}
+\end{table}
+
+\begin{table}[h]
+    \centering
+    \begin{tabular}{|c|c|}
+        \hline
+        \textbf{Aspect} & \textbf{IDFT} \\
+        \hline
+        Purpose & Converts \( X[k] \) from frequency domain back to time domain \\
+        \hline
+        Formula & \( x[n] = \sum_{k=0}^{N-1} \frac{1}{N} X[k] e^{j 2\pi \frac{k}{N} n} \) \\
+        \hline
+        Exponential Term & \( e^{j 2\pi \frac{k}{N} n} \) (positive exponent) \\
+        \hline
+        Scaling Factor & \( \frac{1}{N} \) to normalize \\
+        \hline
+    \end{tabular}
+    \caption{Summary of Inverse Discrete Fourier Transform (IDFT)}
+\end{table}
+
+\FloatBarrier
+\subsection{Intuition Behind DFT and IDFT}
+\begin{itemize}
+    \item Think of \textbf{DFT} as breaking a signal into \textbf{a sum of sinusoids (frequencies)}.
+    \item Think of \textbf{IDFT} as \textbf{reconstructing the original signal} by summing those sinusoids back together.
+    \item The process is like a musical equalizer: DFT separates a song into different frequencies, and IDFT combines them back into the original song.
+\end{itemize}
+
+\subsection{Properties of the DFT Coefficients}
+
+\subsubsection*{1. Symmetry Properties}
+\begin{itemize}
+    \item \textbf{Periodic Property:} The DFT coefficients are periodic with period \( N \):
+    \[
+    X[k + N] = X[k]
+    \]
+    \item \textbf{Index Reversal Property:} The negative indices can be rewritten as:
+    \[
+    X[-k] = X[N - k]
+    \]
+    This allows us to determine negative frequency coefficients using positive frequency coefficients.
+    \item \textbf{Conjugate Symmetry (For Real Signals):} If \( x[n] \) is real, then the DFT coefficients satisfy:
+    \[
+    X[-k] = X^*[k]
+    \]
+    which means the spectrum is symmetric in the frequency domain.
+\end{itemize}
+
+\subsubsection*{2. Frequency Indexing}
+\begin{itemize}
+    \item The DFT computation generally uses frequency indices \( k = 0, 1, 2, \dots, N - 1 \).
+    \item For display purposes, we often represent the spectrum using both positive and negative indices.
+    \item If \( N \) is odd, the frequency indices are commonly written as:
+    \[
+    k = -\frac{N-1}{2}, \dots, -2, -1, 0, 1, 2, \dots, \frac{N-1}{2}
+    \]
+\end{itemize}
+
+\subsubsection*{3. Interpretation of DFT Coefficients}
+\begin{itemize}
+    \item If a real sinusoid has a frequency that is an \textbf{integer multiple} of \( 1/N \) cycles per sample, then its DFT representation contains only **two nonzero coefficients**.
+    \item If a real sinusoid has a frequency that is \textbf{not} an integer multiple of \( 1/N \), then \textbf{all} DFT coefficients may be nonzero.
+    \item The peak in the magnitude spectrum \( |X[k]| \) occurs at a frequency \( k/N \) that is closest to the actual sinusoid frequency.
+\end{itemize}
+
+\subsection{Fast Fourier Transform (FFT)}
+The \textbf{Fast Fourier Transform (FFT)} is an efficient algorithm for computing the DFT. Instead of directly applying the DFT formula, the FFT reduces computation time from \( O(N^2) \) to \( O(N \log N) \), making it significantly faster for large \( N \).
+
+\subsection{Computing the Spectrum of Sampled Signals with the DFT}
+
+\subsubsection*{Key Concepts}
+\begin{itemize}
+    \item One important application of the \textbf{Discrete Fourier Transform (DFT)} is to analyze the frequency content of measured signals.
+    \item The DFT represents a discrete-time signal \( x[n] \), where \( n = 0, 1, 2, \dots, N-1 \), as a sum of complex sinusoids with different frequencies.
+    \item This can be expressed mathematically as:
+    \[
+    x[n] = \sum_{k=0}^{N-1} \frac{1}{N} X[k] e^{j 2\pi \frac{k}{N} n}
+    \]
+    \item The DFT coefficients \( X[k] \) determine the signal’s \textbf{frequency spectrum}.
+\end{itemize}
+
+\subsubsection*{Understanding Frequency Representation in the DFT}
+\begin{itemize}
+    \item Each DFT coefficient \( X[k] \) corresponds to a \textbf{specific discrete-time frequency} given by:
+    \[
+    \hat{f_k} = \frac{k}{N} \quad \text{(cycles per sample)}
+    \]
+    \item The equivalent \textbf{continuous-time frequency} is found by:
+    \[
+    f_k = \hat{f_k} f_s = \frac{k}{N T_s}
+    \]
+    where \( f_s \) is the sampling frequency and \( T_s \) is the sampling interval.
+    \item The \textbf{continuous-time and discrete-time spectra} are related by:
+    \[
+    X(f_k) = \frac{1}{N} X[k]
+    \]
+\end{itemize}
+
+\subsubsection*{Symmetry of the DFT Spectrum}
+\begin{itemize}
+    \item The spectrum at \textbf{negative frequencies} can be obtained using the property:
+    \[
+    X[-k] = X[N - k]
+    \]
+    \item More specifically:
+    \begin{itemize}
+        \item If \( N \) is \textbf{odd}:
+        \[
+        X[-1] = X[N - 1], X[-2] = X[N - 2], \dots, X\left[-\frac{N-1}{2}\right] = X\left[\frac{N+1}{2}\right]
+        \]
+        \item If \( N \) is \textbf{even}:
+        \[
+        X[-1] = X[N - 1], X[-2] = X[N - 2], \dots, X\left[-\frac{N}{2}\right] = X\left[\frac{N}{2}\right]
+        \]
+    \end{itemize}
+    \item In MATLAB, the function \textbf{fftshift} rearranges the DFT output to show both \textbf{positive and negative frequencies} properly.
+\end{itemize}
+
+\subsubsection*{How the DFT Represents Sinusoidal Signals}
+\begin{itemize}
+    \item The DFT of a sampled sinusoid depends on the relationship between the signal’s frequency and the sampling parameters:
+    \[
+    x(t) = A \cos(2\pi f_0 t + \phi)
+    \]
+    \item Two cases arise:
+    \begin{itemize}
+        \item \textbf{Case 1: \( f_0 T_s \) is an integer multiple of \( 1/N \)}  
+        The DFT spectrum contains only \textbf{two nonzero coefficients} at \( \pm f_0 \) Hz, meaning the sinusoid is exactly represented in the frequency domain.
+        \item \textbf{Case 2: \( f_0 T_s \) is not an integer multiple of \( 1/N \)}  
+        The DFT cannot perfectly align with the signal's frequency, leading to a \textbf{nonzero spread} in all DFT coefficients (spectral leakage).
+    \end{itemize}
+\end{itemize}
+
+\newpage
 \section{Using Sinusoids to Detect Activity in fMRI Lab}
 \section{DSP Systems, Impulse Response, Linearity, Time Invariance and Causality}
 \section{Assessment 2 Review}
